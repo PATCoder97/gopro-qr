@@ -1,4 +1,4 @@
-export const DEFAULT_COMMAND = 'mVoMPRES="3,TUAN-7820"mVr1080p30e1!NfW0oT261016093704';
+export const DEFAULT_COMMAND = '!MOWNR="Labs7820\\nScan QR to settings\\nVNW0014732"oMBRNO=10oMBURN="(0,20)[BRyyyy/mm/dd HH:MM:SS AA]"mVoMPRES="3,TUAN-7820"mVr1080p30e1!NfW0oT261016134705';
 export const DRAFT_KEY = 'gopro-qr-draft-v1';
 // Metadata strings may contain text resembling commands; only edit outside quotes.
 export function withoutTimeCommands(command) {

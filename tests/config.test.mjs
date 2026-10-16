@@ -7,8 +7,8 @@ const config = JSON.parse(await readFile(new URL('../public/config.json', import
 test('public default preserves camera settings and synchronizes time',()=>{
   assert.equal(validateConfig(config).command, DEFAULT_COMMAND);
   assert.equal(config.syncTime, true);
-  assert.equal(commandAt(config, new Date(2026,9,16,9,37,4)), DEFAULT_COMMAND);
-  assert.equal(commandAt(config, new Date(2026,9,16,9,37,7)), DEFAULT_COMMAND.replace('093704', '093707'));
+  assert.equal(commandAt(config, new Date(2026,9,16,13,47,5)), DEFAULT_COMMAND);
+  assert.equal(commandAt(config, new Date(2026,9,16,13,47,8)), DEFAULT_COMMAND.replace('134705', '134708'));
   assert.equal(commandAt({...config, syncTime:false}), DEFAULT_COMMAND);
 });
 test('imports complete URLs including escaped special characters',()=>{
@@ -18,10 +18,10 @@ test('imports complete URLs including escaped special characters',()=>{
   assert.throws(()=>parseCommand('https://example.com/'));
 });
 test('live time replaces fixed timestamp while preserving settings',()=>{
-  const date = new Date(2026,9,16,9,37,4);
+  const date = new Date(2026,9,16,13,47,5);
   assert.equal(commandAt({...config,syncTime:true},date),DEFAULT_COMMAND);
-  assert.equal(commandAt({...config,command:'mV',syncTime:true},date),'mVoT261016093704');
-  assert.equal(commandAt({...config,command:'mVoT261016093704.100oTI12345',syncTime:true},date),'mVoT261016093704');
+  assert.equal(commandAt({...config,command:'mV',syncTime:true},date),'mVoT261016134705');
+  assert.equal(commandAt({...config,command:'mVoT261016134705.100oTI12345',syncTime:true},date),'mVoT261016134705');
 });
 test('rejects empty, non-ASCII, oversized or invalid config',()=>{
   for(const invalid of [null,{}, {...config,version:2},{...config,command:''},{...config,command:'Tiếng Việt'},{...config,command:'x'.repeat(1201)},{...config,syncTime:'yes'}]) assert.throws(()=>validateConfig(invalid));

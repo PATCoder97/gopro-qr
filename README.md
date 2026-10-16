@@ -10,7 +10,7 @@ Web tĩnh dùng GoPro Labs, triển khai trực tiếp lên GitHub Pages.
   Mốc thời gian trong lệnh gốc dưới đây được thay bằng giờ thiết bị khi tạo QR:
 
 ```text
-mVoMPRES="3,TUAN-7820"mVr1080p30e1!NfW0oT261016093704
+!MOWNR="Labs7820\nScan QR to settings\nVNW0014732"oMBRNO=10oMBURN="(0,20)[BRyyyy/mm/dd HH:MM:SS AA]"mVoMPRES="3,TUAN-7820"mVr1080p30e1!NfW0oT261016134705
 ```
 
 QR chứa **lệnh GoPro trực tiếp**, không phải URL. Camera phải cài firmware
@@ -93,7 +93,7 @@ Có thể đặt `editor: null` nếu chỉ chỉnh `command`.
 - **Mở bản nháp** mở `?preview=draft`, đọc bản nháp trên cùng trình duyệt.
   URL này không chia sẻ được cấu hình sang thiết bị khác.
 - Mặc định `syncTime: true`: QR dùng giờ hiện tại trên thiết bị mở trang và cập nhật mỗi giây.
-  Nếu tắt đồng bộ, có thể dùng thời gian cố định; mốc gốc là `oT261016093704` (16/10/2026 09:37:04).
+  Nếu tắt đồng bộ, có thể dùng thời gian cố định; mốc gốc là `oT261016134705` (16/10/2026 13:47:05).
 - Bật **Đồng bộ giờ hiện tại** để QR thay thời gian mỗi giây, theo giờ địa phương
   của thiết bị đang mở trang quét. Khi dùng, nên bảo đảm giờ thiết bị chính xác.
 - **Về mặc định** thay cấu hình đang chỉnh; chỉ thay QR công khai sau khi xuất bản.
@@ -132,8 +132,8 @@ hoặc QR riêng cho đồng bộ giờ, owner, overlay, video 1080p30, chụp �
 Có mẫu `oMQRDR=1` cho phép quét khi đang quay; quét mẫu này trước khi ghi nếu muốn dừng bằng QR.
 Mẫu nhanh chuyển sang ô nhập lệnh để có thể sửa trực tiếp. QR owner/overlay riêng
 lấy nội dung từ các ô tương ứng; các QR cơ bản khác chỉ thay đổi chức năng đã chọn.
-Mẫu đầy đủ bật đồng bộ giờ hiện tại và giữ nguyên payload mẫu (gồm `g0` tắt GPS).
-Tính năng mới chưa tự thay cấu hình QR công khai; chọn mẫu và xuất bản để áp dụng.
+Mẫu đầy đủ bật đồng bộ giờ hiện tại và dùng owner `Labs7820`, overlay ngày giờ cùng preset TUAN-7820.
+Cấu hình mặc định của trang quét và nút **Về mặc định** đã bao gồm owner và overlay này.
 
 Overlay ghi chữ trực tiếp vào hình ảnh, không thể gỡ khỏi video đã quay.
 Theo tài liệu GoPro Labs, HERO10–13 chỉ hỗ trợ overlay ở 8-bit, 4K 16:9 tới 30fps,

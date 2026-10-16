@@ -62,7 +62,7 @@ function apply(config) {
     controls.restore(config.editor); controls.syncSelects();
     $('#fixed-time').value = config.editor.fixedTime ?? ''; setMode('form');
   } else if (config.command === DEFAULT_COMMAND) {
-    controls.defaults(); $('#fixed-time').value='261016093704'; setMode('form');
+    controls.defaults(); $('#fixed-time').value='261016134705'; setMode('form');
   } else { $('#raw-command').value=config.command; setMode('raw'); }
   refresh();
 }
@@ -71,7 +71,7 @@ document.querySelectorAll('[data-quick]').forEach(button => { button.onclick = (
     const state = labs.snapshot(), type = button.dataset.quick;
     const commands = {
       sample: () => SAMPLE_COMMAND,
-      time: () => 'oT261016093704',
+      time: () => 'oT261016134705',
       owner: () => ownerCommand({ ...state, ownerMode: state.ownerMode === 'clear' ? 'clear' : 'set' }),
       overlay: () => overlayCommand({ ...state, overlayMode: state.overlayMode === 'clear' ? 'clear' : 'set' }),
       qrdr: () => 'oMQRDR=1', video: () => 'mVr1080p30', photo: () => 'mP', start: () => '!S', stop: () => '!E',

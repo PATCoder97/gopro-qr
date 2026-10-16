@@ -3,13 +3,13 @@ import assert from 'node:assert/strict';
 import { LABS_DEFAULTS, SAMPLE_COMMAND, ownerCommand, overlayCommand } from '../src/labs.js';
 import { validateConfig, commandAt } from '../src/config.js';
 test('sample matches requested Labs payload, including literal line separators', () => {
-  assert.equal(ownerCommand({ ...LABS_DEFAULTS, ownerMode:'set' }), '!MOWNR="Labs782\\nScan QR to settings\\nVNW0014732"');
+  assert.equal(ownerCommand({ ...LABS_DEFAULTS, ownerMode:'set' }), '!MOWNR="Labs7820\\nScan QR to settings\\nVNW0014732"');
   assert.equal(overlayCommand({ ...LABS_DEFAULTS, overlayMode:'set' }), 'oMBRNO=10oMBURN="(0,20)[BRyyyy/mm/dd HH:MM:SS AA]"');
-  assert.equal(SAMPLE_COMMAND, 'mVoMPRES="3,TUAN-7820"mVr1080p30e1!NfW0' + ownerCommand({...LABS_DEFAULTS,ownerMode:'set'}) + 'g0' + overlayCommand({...LABS_DEFAULTS,overlayMode:'set'}));
+  assert.equal(SAMPLE_COMMAND, ownerCommand(LABS_DEFAULTS) + overlayCommand(LABS_DEFAULTS) + 'mVoMPRES="3,TUAN-7820"mVr1080p30e1!NfW0');
 });
 test('keep, clear and permanent storage have explicit commands', () => {
-  assert.equal(ownerCommand(LABS_DEFAULTS), '');
-  assert.equal(overlayCommand(LABS_DEFAULTS), '');
+  assert.equal(ownerCommand({...LABS_DEFAULTS,ownerMode:'keep'}), '');
+  assert.equal(overlayCommand({...LABS_DEFAULTS,overlayMode:'keep'}), '');
   assert.equal(ownerCommand({...LABS_DEFAULTS,ownerMode:'clear'}), '!MOWNR=""');
   assert.equal(overlayCommand({...LABS_DEFAULTS,overlayMode:'clear'}), 'oMBURN=""');
   assert.equal(overlayCommand({...LABS_DEFAULTS,overlayMode:'clear',permanent:true}), '!MBURN=""');

@@ -1,8 +1,8 @@
 // Syntax follows gopro/labs docs/control/{owner,overlays}.
-export const SAMPLE_COMMAND = 'mVoMPRES="3,TUAN-7820"mVr1080p30e1!NfW0!MOWNR="Labs782\\nScan QR to settings\\nVNW0014732"g0oMBRNO=10oMBURN="(0,20)[BRyyyy/mm/dd HH:MM:SS AA]"';
+export const SAMPLE_COMMAND = '!MOWNR="Labs7820\\nScan QR to settings\\nVNW0014732"oMBRNO=10oMBURN="(0,20)[BRyyyy/mm/dd HH:MM:SS AA]"mVoMPRES="3,TUAN-7820"mVr1080p30e1!NfW0';
 export const LABS_DEFAULTS = {
-  ownerMode: 'keep', owner: 'Labs782\nScan QR to settings\nVNW0014732',
-  overlayMode: 'keep', permanent: false, position: 'BR', width: '0', height: '20', offset: '10',
+  ownerMode: 'set', owner: 'Labs7820\nScan QR to settings\nVNW0014732',
+  overlayMode: 'set', permanent: false, position: 'BR', width: '0', height: '20', offset: '10',
   date: 'yyyy/mm/dd', time: 'HH:MM:SS AA', text: '',
 };
 function quoted(text, label) {
