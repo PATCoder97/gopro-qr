@@ -22,6 +22,44 @@
           <div class="section-heading"><span class="step">01</span><div><h2>Thiết lập GoPro</h2><p>Giữ nguyên cú pháp từ GoPro Labs.</p></div></div>
           <div class="editor-tabs" role="group" aria-label="Cách nhập cấu hình"><button id="form-mode" class="active" type="button" aria-pressed="true">Chọn thông số</button><button id="raw-mode" type="button" aria-pressed="false">Nhập lệnh / URL</button></div>
           <div id="form-editor">
+            <section class="labs-section" aria-labelledby="quick-title">
+              <h2 id="quick-title">Tạo QR cơ bản</h2>
+              <p class="help">Mẫu nhanh tạo một QR riêng. Bạn có thể xem lệnh, tải PNG hoặc xuất bản như cấu hình thường.</p>
+              <div class="quick-actions">
+                <button type="button" class="button" data-quick="sample">Mẫu TUAN-7820 + owner + ngày giờ</button>
+                <button type="button" class="button" data-quick="time">Chỉ đồng bộ giờ</button>
+                <button type="button" class="button" data-quick="owner">Chỉ thông tin chủ sở hữu</button>
+                <button type="button" class="button" data-quick="overlay">Chỉ overlay ngày giờ</button>
+                <button type="button" class="button" data-quick="video">Video 1080p30</button>
+                <button type="button" class="button" data-quick="photo">Chế độ chụp ảnh</button>
+                <button type="button" class="button" data-quick="start">Bắt đầu ghi</button>
+                <button type="button" class="button" data-quick="qrdr">Cho phép quét khi đang quay</button>
+                <button type="button" class="button" data-quick="stop">Dừng ghi</button>
+              </div>
+              <p class="help">Để dừng ghi bằng QR, quét mẫu “Cho phép quét khi đang quay” trước khi bắt đầu ghi (QRDR, áp dụng trong phiên bật máy).</p>
+            </section>
+            <section id="labs-controls" class="labs-section" aria-labelledby="labs-title">
+              <h2 id="labs-title">Chủ sở hữu &amp; ngày giờ trên video</h2>
+              <label for="owner-mode">Thông tin chủ sở hữu</label>
+              <select id="owner-mode" data-labs="ownerMode"><option value="keep">Không thay đổi</option><option value="set">Ghi thông tin vào camera</option><option value="clear">Xóa thông tin đã lưu</option></select>
+              <label for="owner-text">Tên, liên hệ hoặc mã camera</label>
+              <textarea id="owner-text" data-labs="owner" rows="3" spellcheck="false"></textarea>
+              <p class="help">OWNR được lưu lâu dài, hiện khi bật máy và nằm trong metadata của ảnh/video. Tối đa 64 ký tự không dấu (\n tính 2 ký tự); Enter để xuống dòng.</p>
+              <label for="overlay-mode">Overlay trên video</label>
+              <select id="overlay-mode" data-labs="overlayMode"><option value="keep">Không thay đổi</option><option value="set">Bật chữ / ngày giờ</option><option value="clear">Tắt overlay</option></select>
+              <div class="labs-grid">
+                <div><label for="overlay-date">Ngày (yyyy/mm/dd hoặc dd/mm/yyyy)</label><input id="overlay-date" data-labs="date" /></div>
+                <div><label for="overlay-time">Giờ (HH:MM:SS, thêm AA cho AM/PM)</label><input id="overlay-time" data-labs="time" /></div>
+                <div><label for="overlay-position">Vị trí</label><select id="overlay-position" data-labs="position"><option value="TL">Trên trái</option><option value="TC">Trên giữa</option><option value="TR">Trên phải</option><option value="ML">Giữa trái</option><option value="MR">Giữa phải</option><option value="BL">Dưới trái</option><option value="BC">Dưới giữa</option><option value="BR">Dưới phải</option></select></div>
+                <div><label for="overlay-offset">Cách mép (10–150)</label><input id="overlay-offset" type="number" min="10" max="150" data-labs="offset" /></div>
+                <div><label for="overlay-width">Chiều ngang (0 = tự động)</label><input id="overlay-width" type="number" min="0" max="200" data-labs="width" /></div>
+                <div><label for="overlay-height">Chiều cao (0 = tự động)</label><input id="overlay-height" type="number" min="0" max="200" data-labs="height" /></div>
+              </div>
+              <label for="overlay-text">Chữ thêm trước ngày giờ (tùy chọn)</label><textarea id="overlay-text" data-labs="text" rows="2" spellcheck="false"></textarea>
+              <label class="check-row"><input id="overlay-permanent" type="checkbox" data-labs="permanent" /><span>Lưu overlay lâu dài trên camera<small>Mặc định chỉ áp dụng trong phiên bật máy hiện tại.</small></span></label>
+              <p class="help">BURN ghi chữ trực tiếp vào video, không thể gỡ khỏi video đã quay. HERO10–13: chỉ 8-bit, 4K 16:9 ≤30fps, 2.7K ≤60fps, 1080p ≤120fps. Hỗ trợ tùy camera/firmware; chọn 8-bit trong Protune khi dùng overlay.</p>
+              <p class="help"><a href="https://gopro.github.io/labs/control/owner/" target="_blank" rel="noopener">Tài liệu OWNR ↗</a> · <a href="https://gopro.github.io/labs/control/overlays/" target="_blank" rel="noopener">Tài liệu BURN ↗</a> · <a href="https://gopro.github.io/labs/control/" target="_blank" rel="noopener">Tất cả nhóm lệnh Labs ↗</a></p>
+            </section>
             <div id="camera-controls" class="camera-controls"></div>
             <div class="fixed-time"><label for="fixed-time">Thời gian cố định <span>YYMMDDhhmmss</span></label><input id="fixed-time" type="text" pattern="[0-9]{12}" inputmode="numeric" maxlength="12" value="261016093704" /><p>Chỉ áp dụng khi tắt đồng bộ giờ hiện tại. Mặc định QR dùng giờ trên thiết bị.</p></div>
           </div>

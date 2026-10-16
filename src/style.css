@@ -10,3 +10,5 @@
 #camera-controls #opDT,#camera-controls #opDTS{display:none!important}
 .brand small,.top-link{white-space:nowrap}
 @media(max-width:380px){.brand small,.brand-divider{display:none}.brand{flex-shrink:0}.top-link{margin-left:10px}}
+
+.labs-section{padding:18px 0;border-bottom:1px solid var(--line)}.labs-section h2{font-size:15px;margin-bottom:12px}.labs-section>label:not(.check-row){display:block;margin:14px 0 7px}.labs-section>input,.labs-section>select,.labs-section>textarea{width:100%}.labs-section .check-row{margin:16px 0}.labs-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:14px 0}.labs-grid label{display:block;font-size:12px;margin-bottom:7px}.labs-grid input,.labs-grid select{width:100%}.quick-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.quick-actions button{text-align:left;white-space:normal}.labs-section .help{margin-top:9px}@media(max-width:380px){.labs-grid{grid-template-columns:minmax(0,1fr)}}

@@ -63,7 +63,8 @@ test('publishing writes config with mock GitHub API and clears token',async({pag
 });
 test('live time updates and preset/Protune/photo/action controls run without errors',async({page})=>{
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.clock.install({time:new Date('2026-10-16T09:37:04')});
+  await page.clock.install({time:new Date('2026-10-16T09:37:00')});
+  await page.clock.pauseAt(new Date('2026-10-16T09:37:04'));
   await page.goto('/admin/');await expect(page.locator('#command-output')).toHaveText(liveDefault);
   await expect(page.locator('#sync-time')).toBeChecked();const before=await page.locator('#command-output').textContent();
   await page.clock.fastForward(3000);await expect(page.locator('#command-output')).not.toHaveText(before);
@@ -83,7 +84,8 @@ for(const width of [320,390,1280])test(`responsive layout ${width}px has no page
 });
 
 test('default synchronizes the public QR every second and reset re-enables sync',async({page})=>{
-  await page.clock.install({time:new Date('2026-10-16T09:37:04')});
+  await page.clock.install({time:new Date('2026-10-16T09:37:00')});
+  await page.clock.pauseAt(new Date('2026-10-16T09:37:04'));
   await page.goto('/');
   await expect.poll(()=>decode(page,'#public-qr')).toBe(DEFAULT_COMMAND);
   await page.clock.fastForward(3000);
@@ -96,4 +98,39 @@ test('default synchronizes the public QR every second and reset re-enables sync'
   await page.locator('#reset-default').click();
   await expect(page.locator('#sync-time')).toBeChecked();
   await expect(page.locator('#command-output')).not.toHaveText(DEFAULT_COMMAND);
+});
+
+test('owner and overlay controls generate readable QR and persist through draft reload',async({page})=>{
+  await page.goto('/admin/');await expect(page.locator('#command-output')).toHaveText(liveDefault);
+  await page.locator('#owner-mode').selectOption('set');
+  await page.locator('#overlay-mode').selectOption('set');
+  await page.locator('#sync-time').uncheck();
+  await expect(page.locator('#command-output')).toContainText('!MOWNR="Labs782\\nScan QR to settings\\nVNW0014732"');
+  await expect(page.locator('#command-output')).toContainText('oMBRNO=10oMBURN="(0,20)[BRyyyy/mm/dd HH:MM:SS AA]"');
+  await expect.poll(()=>decode(page,'#preview-qr')).toBe(await page.locator('#command-output').textContent());
+  await page.locator('#overlay-date').fill('dd/mm/yyyy');
+  await page.locator('#overlay-time').fill('HH:MM:SS');
+  await page.locator('#overlay-position').selectOption('TL');
+  await page.locator('#overlay-permanent').check();
+  await page.locator('#save-draft').click();await page.reload();
+  await expect(page.locator('#owner-mode')).toHaveValue('set');
+  await expect(page.locator('#command-output')).toContainText('!MBURN="(0,20)[TLdd/mm/yyyy HH:MM:SS]"');
+  await page.locator('#owner-text').fill('bad"!S');
+  await expect(page.locator('#qr-error')).toBeVisible();await expect(page.locator('#publish-button')).toBeDisabled();
+  await page.locator('#owner-mode').selectOption('clear');await page.locator('#overlay-mode').selectOption('clear');
+  await expect(page.locator('#command-output')).toContainText('!MOWNR=""!MBURN=""');
+});
+test('basic QR templates decode the sample and standalone camera actions',async({page})=>{
+  const { SAMPLE_COMMAND } = await import('../../src/labs.js');
+  await page.goto('/admin/');await expect(page.locator('#command-output')).toHaveText(liveDefault);
+  await page.locator('[data-quick="sample"]').click();
+  await expect(page.locator('#command-output')).toHaveText(new RegExp('oT\\d{12}$'));
+  await expect.poll(()=>decode(page,'#preview-qr')).toMatch(new RegExp('^' + SAMPLE_COMMAND.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + 'oT\\d{12}$'));
+  for(const [type,command] of [['qrdr','oMQRDR=1'],['video','mVr1080p30'],['photo','mP'],['start','!S'],['stop','!E'],['owner','!MOWNR="Labs782\\nScan QR to settings\\nVNW0014732"'],['overlay','oMBRNO=10oMBURN="(0,20)[BRyyyy/mm/dd HH:MM:SS AA]"']]){
+    await page.locator('#form-mode').click();await page.locator(`[data-quick="${type}"]`).click();
+    await expect(page.locator('#command-output')).toHaveText(command);
+    await expect.poll(()=>decode(page,'#preview-qr')).toBe(command);
+  }
+  await page.locator('#form-mode').click();await page.locator('[data-quick="time"]').click();
+  await expect.poll(()=>decode(page,'#preview-qr')).toMatch(/^oT\d{12}$/);
 });

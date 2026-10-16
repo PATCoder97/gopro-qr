@@ -1,4 +1,5 @@
 import './style.css';
+import { setupLabs, ownerCommand, overlayCommand, SAMPLE_COMMAND } from './labs.js';
 import { setupControls } from './controls.js';
 import { loadConfig, validateConfig, parseCommand, commandAt, DEFAULT_COMMAND, DRAFT_KEY } from './config.js';
 import { renderQR } from './qr.js';
@@ -8,6 +9,7 @@ const base = import.meta.env.BASE_URL;
 let mode = 'form', generated = '', valid = false, drawing = false, pending = null, toastTimer, publishing = false;
 const controls = setupControls(base, command => { generated = command; });
 controls.defaults();
+const labs = setupLabs();
 function toast(message) {
   $('#toast').textContent=message; $('#toast').hidden=false;
   clearTimeout(toastTimer); toastTimer=setTimeout(()=>{$('#toast').hidden=true;},3500);
@@ -20,10 +22,10 @@ function currentConfig() {
     controls.refresh();
     const fixed = $('#fixed-time').value.trim();
     if (!$('#sync-time').checked && fixed && !/^\d{12}$/.test(fixed)) throw new Error('Thời gian cố định cần đúng 12 chữ số YYMMDDhhmmss.');
-    command = generated + (!$('#sync-time').checked && fixed ? 'oT' + fixed : '');
+    command = labs.command() + generated + (!$('#sync-time').checked && fixed ? 'oT' + fixed : '');
   }
   return validateConfig({ version:1, command, syncTime:$('#sync-time').checked,
-    editor: mode === 'form' ? { ...controls.snapshot(), fixedTime:$('#fixed-time').value } : null });
+    editor: mode === 'form' ? { ...controls.snapshot(), fixedTime:$('#fixed-time').value, labs:labs.snapshot() } : null });
 }
 async function drawLatest(command) {
   pending = command;
@@ -55,6 +57,7 @@ function setMode(next) {
 }
 function apply(config) {
   $('#sync-time').checked = config.syncTime;
+  labs.restore(config.editor?.labs);
   if (config.editor?.fields) {
     controls.restore(config.editor); controls.syncSelects();
     $('#fixed-time').value = config.editor.fixedTime ?? ''; setMode('form');
@@ -63,6 +66,22 @@ function apply(config) {
   } else { $('#raw-command').value=config.command; setMode('raw'); }
   refresh();
 }
+document.querySelectorAll('[data-quick]').forEach(button => { button.onclick = () => {
+  try {
+    const state = labs.snapshot(), type = button.dataset.quick;
+    const commands = {
+      sample: () => SAMPLE_COMMAND,
+      time: () => 'oT261016093704',
+      owner: () => ownerCommand({ ...state, ownerMode: state.ownerMode === 'clear' ? 'clear' : 'set' }),
+      overlay: () => overlayCommand({ ...state, overlayMode: state.overlayMode === 'clear' ? 'clear' : 'set' }),
+      qrdr: () => 'oMQRDR=1', video: () => 'mVr1080p30', photo: () => 'mP', start: () => '!S', stop: () => '!E',
+    };
+    $('#raw-command').value = commands[type]();
+    $('#sync-time').checked = type === 'time' || type === 'sample';
+    setMode('raw'); refresh();
+    toast('Đã tạo mẫu QR. Chỉnh lệnh tại ô nhập hoặc quay lại Chọn thông số để chỉnh biểu mẫu.');
+  } catch (err) { toast(err.message); }
+}; });
 $('#raw-mode').onclick=()=>{
   try { $('#raw-command').value=currentConfig().command; setMode('raw'); refresh(); } catch(err){toast(err.message);}
 };

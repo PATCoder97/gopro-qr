@@ -112,3 +112,34 @@ Xem [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) cho nguồn và giấy phé
 Tham khảo [GoPro QR Control](https://gopro.github.io/labs/control/custom/),
 [GitHub Contents API](https://docs.github.com/en/rest/repos/contents#create-or-update-file-contents)
 và [Pages workflows](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages).
+
+## Owner, overlay ngày giờ và QR cơ bản
+
+Trong `/admin/`, phần **Chủ sở hữu & ngày giờ trên video** bổ sung:
+
+- `OWNR`: giữ nguyên, ghi hoặc xóa thông tin chủ sở hữu. Nhập nhiều dòng bằng
+  Enter hoặc `\n`; tối đa 64 ký tự ASCII không dấu. Thông tin lưu lâu dài trong camera.
+- `BURN`: giữ nguyên, bật hoặc tắt overlay; chọn vị trí, kích thước và khoảng cách
+  mép. Có thể chọn `yyyy/mm/dd` hoặc `dd/mm/yyyy`; `HH:MM:SS` là giờ 24 tiếng,
+  thêm `AA` để dùng AM/PM. Overlay dùng giờ camera, nên đồng bộ giờ trước khi quay.
+- Mặc định overlay chỉ có hiệu lực trong phiên bật máy. Bật **Lưu overlay lâu dài**
+  để dùng `!M`; chọn **Tắt overlay** và bật lưu lâu dài để xóa overlay đã lưu.
+  **Không thay đổi** chỉ bỏ lệnh khỏi QR, không xóa cài đặt trên camera.
+- Các tùy chọn được lưu cùng bản nháp và cấu hình xuất bản.
+
+**Tạo QR cơ bản** có mẫu đầy đủ TUAN-7820 + owner + ngày giờ như yêu cầu,
+hoặc QR riêng cho đồng bộ giờ, owner, overlay, video 1080p30, chụp ảnh, bắt đầu/dừng ghi.
+Có mẫu `oMQRDR=1` cho phép quét khi đang quay; quét mẫu này trước khi ghi nếu muốn dừng bằng QR.
+Mẫu nhanh chuyển sang ô nhập lệnh để có thể sửa trực tiếp. QR owner/overlay riêng
+lấy nội dung từ các ô tương ứng; các QR cơ bản khác chỉ thay đổi chức năng đã chọn.
+Mẫu đầy đủ bật đồng bộ giờ hiện tại và giữ nguyên payload mẫu (gồm `g0` tắt GPS).
+Tính năng mới chưa tự thay cấu hình QR công khai; chọn mẫu và xuất bản để áp dụng.
+
+Overlay ghi chữ trực tiếp vào hình ảnh, không thể gỡ khỏi video đã quay.
+Theo tài liệu GoPro Labs, HERO10–13 chỉ hỗ trợ overlay ở 8-bit, 4K 16:9 tới 30fps,
+2.7K tới 60fps, 1080p tới 120fps; khả năng thực tế còn tùy camera/firmware.
+Mẫu không tự ép độ sâu màu: chọn 8-bit trên camera hoặc trong Protune khi cần.
+Tham khảo [Owner](https://gopro.github.io/labs/control/owner/),
+[Overlay](https://gopro.github.io/labs/control/overlays/),
+[Extensions](https://gopro.github.io/labs/control/extensions/) và
+[ngôn ngữ lệnh](https://gopro.github.io/labs/control/tech/).
