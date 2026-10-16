@@ -39,12 +39,22 @@ Lần đầu chạy browser tests: `npx playwright install chromium`.
 
 1. Đẩy source lên nhánh `main` của repository.
 2. Trong repo, mở **Settings → Pages → Build and deployment → Source**,
-   chọn **GitHub Actions**.
+   chọn **GitHub Actions**. **Bước này bắt buộc trước lần chạy workflow đầu tiên.**
 3. Workflow `.github/workflows/deploy.yml` chạy khi push `main`, hoặc chọn
    **Actions → Deploy GitHub Pages → Run workflow**.
 4. Đợi job deploy thành công. Với repo hiện tại, địa chỉ dự kiến:
    - QR: `https://patcoder97.github.io/gopro-qr/`
    - Admin: `https://patcoder97.github.io/gopro-qr/admin/`
+
+Nếu bước **Configure Pages** báo `HttpError: Not Found`, repository chưa được bật
+Pages hoặc Source chưa chọn GitHub Actions. Mở
+[Settings → Pages](https://github.com/PATCoder97/gopro-qr/settings/pages), chọn đúng
+Source, rồi chạy lại workflow. `GITHUB_TOKEN` mặc định không thể tự bật Pages lần đầu;
+chỉ thêm `enablement: true` sẽ không giải quyết được thiếu quyền này.
+
+Workflow dùng runner `ubuntu-24.04` cố định và các action chạy Node.js 24,
+tránh thay đổi từ `ubuntu-latest` và cảnh báo action Node.js 20. Node.js dùng để
+build ứng dụng vẫn là phiên bản 22.
 
 Workflow tự lấy base path từ GitHub Pages, hỗ trợ project Pages,
 user/organization Pages và custom domain. Không cần cấu hình URL asset thủ công.
