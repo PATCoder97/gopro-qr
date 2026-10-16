@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b1927" />
+  <meta name="description" content="Thiết lập và xuất bản mã QR cho camera GoPro Labs." />
+  <title>Quản trị · GoPro QR</title>
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+</head>
+<body class="admin-page">
+  <header class="topbar">
+    <a class="brand" href="../"><img src="../favicon.svg" width="32" height="32" alt="" />GoPro<span>QR</span><span class="brand-divider"></span><small>QUẢN TRỊ</small></a>
+    <a class="top-link" href="../" target="_blank" rel="noopener">Mở trang quét <span aria-hidden="true">↗</span></a>
+  </header>
+  <main class="workspace">
+    <div class="page-heading"><div><p class="eyebrow">GOPRO LABS / QR CONTROL</p><h1>Cấu hình camera.</h1><p>Thiết lập một lần. Sẵn sàng cho mọi lần quét.</p></div><span class="pill"><i></i> Tạo QR trên thiết bị</span></div>
+    <div id="load-error" class="notice" role="alert" hidden></div>
+    <div class="admin-grid">
+      <div class="editor-column">
+        <section class="card intro-card">
+          <div class="section-heading"><span class="step">01</span><div><h2>Thiết lập GoPro</h2><p>Giữ nguyên cú pháp từ GoPro Labs.</p></div></div>
+          <div class="editor-tabs" role="group" aria-label="Cách nhập cấu hình"><button id="form-mode" class="active" type="button" aria-pressed="true">Chọn thông số</button><button id="raw-mode" type="button" aria-pressed="false">Nhập lệnh / URL</button></div>
+          <div id="form-editor">
+            <div id="camera-controls" class="camera-controls"></div>
+            <div class="fixed-time"><label for="fixed-time">Thời gian cố định <span>YYMMDDhhmmss</span></label><input id="fixed-time" type="text" pattern="[0-9]{12}" inputmode="numeric" maxlength="12" value="261016093704" /><p>Được giữ nguyên theo lệnh mặc định. Bật đồng bộ giờ bên dưới để dùng giờ thiết bị.</p></div>
+          </div>
+          <div id="raw-editor" hidden><label for="raw-command">Lệnh GoPro hoặc liên kết từ GoPro Labs</label><textarea id="raw-command" rows="5" spellcheck="false"></textarea><p class="help">Dán nguyên lệnh hoặc URL có tham số <code>cmd</code>. QR chứa lệnh trực tiếp để camera đọc.</p></div>
+          <div class="clock-option"><label class="check-row"><input id="sync-time" type="checkbox" /><span>Đồng bộ giờ hiện tại<small>QR tự cập nhật mỗi giây, theo giờ trên thiết bị mở trang.</small></span></label></div>
+        </section>
+        <section class="card publish-card">
+          <div class="section-heading"><span class="step">02</span><div><h2>Xuất bản cho mọi người</h2><p>Lưu cấu hình vào GitHub để cập nhật trang quét.</p></div></div>
+          <p class="help">Trang quản trị mở công khai. Chỉ người có token được cấp quyền ghi repo mới có thể xuất bản. Token chỉ dùng cho lần gửi này.</p>
+          <form id="publish-form">
+            <div class="input-grid"><div><label for="repository">Repository</label><input id="repository" required value="PATCoder97/gopro-qr" placeholder="owner/repository" autocomplete="off" /></div><div><label for="branch">Nhánh triển khai</label><input id="branch" required value="main" autocomplete="off" /></div></div>
+            <label for="github-token">GitHub token <span>Contents: Read and write</span></label><input id="github-token" type="password" required placeholder="github_pat_…" autocomplete="off" spellcheck="false" />
+            <div class="publish-footer"><a id="actions-link" href="https://github.com/PATCoder97/gopro-qr/actions" target="_blank" rel="noopener">Xem GitHub Actions ↗</a><button id="publish-button" class="button primary" type="submit">Xuất bản cấu hình <span aria-hidden="true">↗</span></button></div>
+          </form>
+          <div id="publish-result" class="notice" role="status" hidden></div>
+          <details class="setup-help"><summary>Thiết lập GitHub Pages lần đầu</summary><p>Đẩy source lên nhánh <code>main</code>, mở <strong>Settings → Pages → Source → GitHub Actions</strong>. Workflow có sẵn sẽ build và deploy khi push hoặc khi xuất bản cấu hình tại đây.</p><p>Tạo fine-grained token chỉ cho repository này, quyền <strong>Contents: Read and write</strong>. Không đưa token vào source hoặc file cấu hình.</p></details>
+        </section>
+        <footer class="credits">Dựa trên <a href="https://gopro.github.io/labs/control/custom/" target="_blank" rel="noopener">GoPro Labs QR Control ↗</a><span>Camera cần firmware GoPro Labs.</span></footer>
+      </div>
+      <aside class="preview-column">
+        <section class="card preview-card"><div class="preview-heading"><h2>Xem trước QR</h2><span class="live-dot">TRỰC TIẾP</span></div><div class="qr-preview"><canvas id="preview-qr" role="img" aria-label="Mã QR xem trước"></canvas></div><p class="preview-caption">Hướng camera GoPro vào mã QR</p><div id="qr-error" class="notice error" role="alert" hidden></div><div class="command-heading"><label for="command-output">LỆNH GOPRO</label><button id="copy-command" type="button">Sao chép</button></div><output id="command-output"></output><div class="preview-actions"><button id="download-qr" class="button" type="button">↓ Tải QR PNG</button><button id="preview-page" class="button" type="button">Mở bản nháp ↗</button></div><div class="draft-actions"><button id="save-draft" type="button">Lưu bản nháp</button><button id="reset-default" type="button">Về mặc định</button></div><p id="draft-status" class="help" role="status">Bản nháp chưa được xuất bản.</p></section>
+        <section class="tip"><span aria-hidden="true">↳</span><p><strong>Một mã. Đúng thiết lập.</strong><br />Trang quét chỉ hiển thị QR đã xuất bản. Lưu bản nháp chỉ áp dụng trên trình duyệt này.</p></section>
+      </aside>
+    </div>
+  </main>
+  <div id="toast" role="status" hidden></div>
+  <script type="module" src="/src/admin.js"></script>
+</body>
+</html>

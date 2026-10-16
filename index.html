@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="description" content="Mã QR cấu hình camera GoPro Labs." />
+  <title>GoPro QR</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+</head>
+<body class="scan-page">
+  <main id="app" class="scan-stage" aria-label="Mã QR cấu hình GoPro">
+    <canvas id="public-qr" role="img" aria-label="Quét mã QR này bằng camera GoPro Labs"></canvas>
+    <p id="scan-error" role="alert" hidden></p>
+  </main>
+  <script type="module" src="/src/public.js"></script>
+</body>
+</html>
