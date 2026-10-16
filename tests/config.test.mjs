@@ -4,10 +4,12 @@ import { readFile } from 'node:fs/promises';
 import { DEFAULT_COMMAND, validateConfig, commandAt, parseCommand, encodeContent } from '../src/config.js';
 import { publishConfig } from '../src/github.js';
 const config = JSON.parse(await readFile(new URL('../public/config.json', import.meta.url), 'utf8'));
-test('public default is exactly the user-provided GoPro payload',()=>{
+test('public default preserves camera settings and synchronizes time',()=>{
   assert.equal(validateConfig(config).command, DEFAULT_COMMAND);
-  assert.equal(commandAt(config), DEFAULT_COMMAND);
-  assert.equal(config.syncTime, false);
+  assert.equal(config.syncTime, true);
+  assert.equal(commandAt(config, new Date(2026,9,16,9,37,4)), DEFAULT_COMMAND);
+  assert.equal(commandAt(config, new Date(2026,9,16,9,37,7)), DEFAULT_COMMAND.replace('093704', '093707'));
+  assert.equal(commandAt({...config, syncTime:false}), DEFAULT_COMMAND);
 });
 test('imports complete URLs including escaped special characters',()=>{
   const command = 'mVoMPRES="3,A+B& #100%"';

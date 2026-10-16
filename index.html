@@ -12,6 +12,15 @@
   <main id="app" class="scan-stage" aria-label="Mã QR cấu hình GoPro">
     <canvas id="public-qr" role="img" aria-label="Quét mã QR này bằng camera GoPro Labs"></canvas>
     <p id="scan-error" role="alert" hidden></p>
+    <section class="scan-guide" aria-labelledby="scan-guide-title">
+      <h1 id="scan-guide-title">Hướng dẫn quét cấu hình</h1>
+      <ol>
+        <li>Bật camera GoPro đã cài firmware GoPro Labs.</li>
+        <li>Hướng camera vào mã QR phía trên và giữ yên để camera nhận cấu hình.</li>
+        <li>Kiểm tra camera đã áp dụng cấu hình trước khi quay; không tự ý thay đổi thông số.</li>
+      </ol>
+      <p class="scan-warning"><strong>Lưu ý:</strong> Không tuân thủ cấu hình này, gây ra tình trạng dung lượng video cao, sẽ bị phạt.</p>
+    </section>
   </main>
   <script type="module" src="/src/public.js"></script>
 </body>

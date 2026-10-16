@@ -23,10 +23,10 @@
           <div class="editor-tabs" role="group" aria-label="Cách nhập cấu hình"><button id="form-mode" class="active" type="button" aria-pressed="true">Chọn thông số</button><button id="raw-mode" type="button" aria-pressed="false">Nhập lệnh / URL</button></div>
           <div id="form-editor">
             <div id="camera-controls" class="camera-controls"></div>
-            <div class="fixed-time"><label for="fixed-time">Thời gian cố định <span>YYMMDDhhmmss</span></label><input id="fixed-time" type="text" pattern="[0-9]{12}" inputmode="numeric" maxlength="12" value="261016093704" /><p>Được giữ nguyên theo lệnh mặc định. Bật đồng bộ giờ bên dưới để dùng giờ thiết bị.</p></div>
+            <div class="fixed-time"><label for="fixed-time">Thời gian cố định <span>YYMMDDhhmmss</span></label><input id="fixed-time" type="text" pattern="[0-9]{12}" inputmode="numeric" maxlength="12" value="261016093704" /><p>Chỉ áp dụng khi tắt đồng bộ giờ hiện tại. Mặc định QR dùng giờ trên thiết bị.</p></div>
           </div>
           <div id="raw-editor" hidden><label for="raw-command">Lệnh GoPro hoặc liên kết từ GoPro Labs</label><textarea id="raw-command" rows="5" spellcheck="false"></textarea><p class="help">Dán nguyên lệnh hoặc URL có tham số <code>cmd</code>. QR chứa lệnh trực tiếp để camera đọc.</p></div>
-          <div class="clock-option"><label class="check-row"><input id="sync-time" type="checkbox" /><span>Đồng bộ giờ hiện tại<small>QR tự cập nhật mỗi giây, theo giờ trên thiết bị mở trang.</small></span></label></div>
+          <div class="clock-option"><label class="check-row"><input id="sync-time" type="checkbox" checked /><span>Đồng bộ giờ hiện tại<small>QR tự cập nhật mỗi giây, theo giờ trên thiết bị mở trang.</small></span></label></div>
         </section>
         <section class="card publish-card">
           <div class="section-heading"><span class="step">02</span><div><h2>Xuất bản cho mọi người</h2><p>Lưu cấu hình vào GitHub để cập nhật trang quét.</p></div></div>

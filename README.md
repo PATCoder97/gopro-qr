@@ -2,10 +2,12 @@
 
 Web tĩnh dùng GoPro Labs, triển khai trực tiếp lên GitHub Pages.
 
-- `/`: chỉ hiển thị QR công khai, không có nút quản trị hay thông số.
+- `/`: hiển thị QR công khai, hướng dẫn quét và lưu ý xử phạt khi không tuân thủ
+  cấu hình gây dung lượng video cao; không có nút quản trị hay thông số.
 - `/admin/` (hoặc `/admin`): chỉnh thông số, xem trước, nhập lệnh/URL,
   tải PNG, lưu bản nháp và xuất bản cấu hình.
-- Cấu hình mặc định là nguyên lệnh được yêu cầu:
+- Cấu hình mặc định giữ các thông số đã yêu cầu và bật đồng bộ giờ hiện tại.
+  Mốc thời gian trong lệnh gốc dưới đây được thay bằng giờ thiết bị khi tạo QR:
 
 ```text
 mVoMPRES="3,TUAN-7820"mVr1080p30e1!NfW0oT261016093704
@@ -90,7 +92,8 @@ Có thể đặt `editor: null` nếu chỉ chỉnh `command`.
 - **Lưu bản nháp** chỉ lưu trên trình duyệt đang dùng. Không cập nhật QR công khai.
 - **Mở bản nháp** mở `?preview=draft`, đọc bản nháp trên cùng trình duyệt.
   URL này không chia sẻ được cấu hình sang thiết bị khác.
-- Mặc định `syncTime: false`: giữ nguyên `oT261016093704` (16/10/2026 09:37:04).
+- Mặc định `syncTime: true`: QR dùng giờ hiện tại trên thiết bị mở trang và cập nhật mỗi giây.
+  Nếu tắt đồng bộ, có thể dùng thời gian cố định; mốc gốc là `oT261016093704` (16/10/2026 09:37:04).
 - Bật **Đồng bộ giờ hiện tại** để QR thay thời gian mỗi giây, theo giờ địa phương
   của thiết bị đang mở trang quét. Khi dùng, nên bảo đảm giờ thiết bị chính xác.
 - **Về mặc định** thay cấu hình đang chỉnh; chỉ thay QR công khai sau khi xuất bản.

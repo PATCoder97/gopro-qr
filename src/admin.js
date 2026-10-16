@@ -78,7 +78,7 @@ function saveDraft() {
 }
 $('#save-draft').onclick=()=>{try{saveDraft();toast('Đã lưu bản nháp.');}catch(err){toast(err.message);}};
 $('#reset-default').onclick=()=>{
-  apply({version:1, command:DEFAULT_COMMAND, syncTime:false, editor:null});
+  apply({version:1, command:DEFAULT_COMMAND, syncTime:true, editor:null});
   $('#draft-status').textContent='Đã khôi phục mặc định. Chưa xuất bản.';
 };
 $('#preview-page').onclick=()=>{
